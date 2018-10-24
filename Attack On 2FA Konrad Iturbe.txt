@@ -1,0 +1,26 @@
+=== Attack on 2FA ===
+
+== Intro ==
+
+Two Factor Authentication is often described as the best way to secure an internet account. The idea is that even if an attacker has guessed or obtained the password to the account the access will be denied because of the one-time code needed to enter. This one-time code is generated in real time based on a seed which is stored on the service and on the user's device. Because of this only the user, who has the seed to generate a one-time code can enter into the account.
+
+== The Attack ==
+
+I will be looking at Google Authenticator - an app developed by Google to generate and display one-time codes based on seeds. The app has 10M+ downloads on the Google Play Store and is recommended by services like GitHub and Microsoft as a way to generate one-time codes.
+
+I have found 2 ways of getting access to the codes:
+
+Method 1: Opening the app.
+
+The app lacks a passphrase. Anyone with access to the device with Google Authenticator installed can open the app and get the codes. There's no fingerprint authenticator or password entry available.
+
+See attack.py for a POC on how to get the one-time code. The smartphone requires an ADB connection. This can be replicated with an Android app which calls the Google Authenticator Main intent from startActivity() and using an ARM/ARM64 version of Tesseract.
+
+Method 2: Root access:
+
+The database containing the seeds is stored in "/data/data/com.google.android.apps.authenticator2/databases/databases"
+
+It's not encrypted.
+
+
+
